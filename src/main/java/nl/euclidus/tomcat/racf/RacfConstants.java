@@ -22,8 +22,6 @@ package nl.euclidus.tomcat.racf;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.catalina.util.ServerInfo;
-
 /**
  * All Constants for the Tomcat Infra
  * 
@@ -31,41 +29,7 @@ import org.apache.catalina.util.ServerInfo;
  * @author Gerard Borst
  *
  */
-public class RacfConstants {
-
-	/** 
-	 * The allowed values for the status of a Tomcat instance.
-	 */
-	public static enum TOMCAT_STATUS {
-		STARTED, STOPPED, STOPPING, STARTING
-	}
-	
-	/**
-	 * jar file name and manifest constants.
-	 */
-	public static final String BUNDLE_NAME = "tomcat-racf-build";
-	public static final String JAR_BUILD_DATE = "build-date";
-	public static final String JAR_BUILD_RELEASE = "build-release";
-	public static final String JAR_UNKNOWN = "UNKNOWN";
-	
-	/**
-	 * constants for listener.
-	 */
-	public static final String INSTANCE_NAME = System.getProperty("tomcat.instance_name");
-	public static final String SERVER = System.getProperty("tomcat.server");
-	public static final String WS_URI = System.getProperty("tomcat.mgr_ws_uri");
-	public static final String SERVER_INFO = ServerInfo.getServerInfo();
-	public static final String INTERVAL_STRING = System.getProperty("tomcat.reportstatus.interval");
-	/** default interval is 1 minute */
-	public static final long DEFAULT_INTERVAL = 60000;
-	public static final String SET_STATUS_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
-		+ "<tomcat>" +
-				"<name>%s</name>" +
-				"<lpar>%s</lpar>" +
-				"<status>%s</status>" +
-				"<server_info>%s</server_info>" 
-		+ "</tomcat>";
-	
+public class RacfConstants {	
     /**
      * SSL Attributes
      */
@@ -121,10 +85,6 @@ public class RacfConstants {
     	}
 	}
     
-    public static final String MSG_TMCT_STOPPING = "RTA001I %s %s Tomcat instance is stopping";
-    public static final String MSG_TMCT_STOPPED = "RTA002I %s %s Tomcat instance is stopped";
-    public static final String MSG_TMCT_STARTING = "RTA003I %s %s Tomcat instance is starting";
-    public static final String MSG_TMCT_STARTED = "RTA004I %s %s Tomcat instance is started";	
     /**
      * Name of context-param to disable prefixing roles with server account.
      */
