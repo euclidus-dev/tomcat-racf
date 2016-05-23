@@ -25,7 +25,7 @@ import java.security.cert.X509Certificate;
 
 import nl.euclidus.tomcat.racf.auth.login.RACFPrincipal;
 import nl.euclidus.tomcat.racf.auth.login.StringErrNo;
-import static nl.euclidus.tomcat.racf.RAcfConstants.*;
+import static nl.euclidus.tomcat.racf.RacfConstants.*;
 
 import org.apache.catalina.Wrapper;
 import org.apache.catalina.realm.RealmBase;

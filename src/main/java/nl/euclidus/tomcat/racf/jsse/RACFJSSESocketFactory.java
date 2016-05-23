@@ -29,7 +29,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
-import java.security.UnrecoverableKeyException;
 import java.security.cert.CRL;
 import java.security.cert.CRLException;
 import java.security.cert.CertPathParameters;
@@ -61,9 +60,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509KeyManager;
 
-import nl.euclidus.tomcat.racf.RTABuildInfo;
-
-import static nl.euclidus.tomcat.racf.RTAConstants.*;
+import static nl.euclidus.tomcat.racf.RacfConstants.*;
 
 import org.apache.tomcat.util.net.AbstractEndpoint;
 import org.apache.tomcat.util.net.Constants;
@@ -434,10 +431,6 @@ public class RACFJSSESocketFactory implements ServerSocketFactory, SSLUtil {
                 throw (IOException)e;
             throw new IOException(e.getMessage());
         }
-        // Display build info on console
-		log.info(sm.getString("logging.info.build_date", RacfBuildInfo.getBuildDate()));
-		log.info(sm.getString("logging.info.build_release",	RacfBuildInfo.getBuildRelease()));
-		log.info(sm.getString("logging.info.status", RACFJSSEImplementation.class.getName()));
     }
 
     /**
@@ -790,5 +783,17 @@ public class RACFJSSESocketFactory implements ServerSocketFactory, SSLUtil {
         return getTrustManagers(truststoreType, endpoint.getKeystoreProvider(),
                 algorithm);
     }
+
+	@Override
+	public String[] getEnableableCiphers(SSLContext arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] getEnableableProtocols(SSLContext arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
