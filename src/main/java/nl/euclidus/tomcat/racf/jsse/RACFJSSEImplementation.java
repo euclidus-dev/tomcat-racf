@@ -52,7 +52,7 @@ Concrete implementation class for IBM Security Server JSSE.
 public class RACFJSSEImplementation extends JSSEImplementation {
 	
     @Override
-    public ServerSocketFactory getServerSocketFactory(AbstractEndpoint endpoint)  {
+    public ServerSocketFactory getServerSocketFactory(AbstractEndpoint<?> endpoint)  {
         return new RACFJSSESocketFactory(endpoint);
     }
 
