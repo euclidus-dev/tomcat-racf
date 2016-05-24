@@ -43,7 +43,7 @@ Concrete implementation class for IBM Security Server JSSE.
 *           keyLabel="&ltracf key label&gt"
 *           keystoreType="JCERACFKS"
 *           keystoreProvider="IBMJCE"
-*           lientAuth="false" sslProtocol="TLS"/&gt
+*           clientAuth="false" sslProtocol="TLS"/&gt
 * 
 * @author EKR and Gerard Borst
 * 
@@ -52,7 +52,7 @@ Concrete implementation class for IBM Security Server JSSE.
 public class RACFJSSEImplementation extends JSSEImplementation {
 	
     @Override
-    public ServerSocketFactory getServerSocketFactory(AbstractEndpoint endpoint)  {
+    public ServerSocketFactory getServerSocketFactory(AbstractEndpoint<?> endpoint)  {
         return new RACFJSSESocketFactory(endpoint);
     }
 

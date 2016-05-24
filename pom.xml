@@ -37,6 +37,7 @@
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<tomcat.version>7.0.68</tomcat.version>
 	</properties>
 	<build>
 		<resources>
@@ -66,7 +67,7 @@
 						</manifest>
 						<manifestEntries>
 							<Build-Date>${maven.build.timestamp}</Build-Date>
-							<Build-Release>${project.version}.${buildNumber}</Build-Release>
+							<Build-Release>${project.version}</Build-Release>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -107,7 +108,17 @@
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-juli</artifactId>
-			<version>7.0.55</version>
+			<version>${tomcat.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-coyote</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-catalina</artifactId>
+			<version>${tomcat.version}</version>
 		</dependency>
 	</dependencies>
 </project>

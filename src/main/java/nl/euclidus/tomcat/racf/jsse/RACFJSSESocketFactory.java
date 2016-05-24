@@ -46,13 +46,13 @@ public class RACFJSSESocketFactory extends JSSESocketFactory {
     static final org.apache.juli.logging.Log log =
         org.apache.juli.logging.LogFactory.getLog(RACFJSSESocketFactory.class);
 
-    private AbstractEndpoint endpoint;
+    private AbstractEndpoint<?> endpoint;
 
     // Defaults - made public where re-used
     private static final String racfKeystoreType = RacfConstants.RACF_SSL_DEFAULT_KEYSTORE_TYPE;
     private static final String racfKeystoreProvider = RacfConstants.RACF_SSL_KEYSTORE_PROVIDER;
 
-    public RACFJSSESocketFactory (AbstractEndpoint endpoint) {
+    public RACFJSSESocketFactory (AbstractEndpoint<?> endpoint) {
     	super(endpoint);
     	this.endpoint = endpoint;
     	if (endpoint.getProperty(RacfConstants.RACF_SSL_ATTR_KEY_LABEL) != null)
