@@ -22,6 +22,12 @@ package nl.euclidus.tomcat.racf.jsse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
+
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+
 import java.security.InvalidParameterException;
 
 import nl.euclidus.tomcat.racf.RacfConstants;
@@ -49,7 +55,7 @@ public class RACFJSSESocketFactory extends JSSESocketFactory {
     private AbstractEndpoint<?> endpoint;
 
     // Defaults - made public where re-used
-    private static final String racfKeystoreType = RacfConstants.RACF_SSL_DEFAULT_KEYSTORE_TYPE;
+    private static final String defaultRacfKeystoreType = RacfConstants.RACF_SSL_DEFAULT_KEYSTORE_TYPE;
     private static final String racfKeystoreProvider = RacfConstants.RACF_SSL_KEYSTORE_PROVIDER;
 
     public RACFJSSESocketFactory (AbstractEndpoint<?> endpoint) {
@@ -59,13 +65,13 @@ public class RACFJSSESocketFactory extends JSSESocketFactory {
     		this.endpoint.setKeyAlias((endpoint.getProperty(RacfConstants.RACF_SSL_ATTR_KEY_LABEL)));
     	String keyStore = this.endpoint.getKeystoreType();
     	if (keyStore != null && !RacfConstants.SUPPORTED_KEYSTORES.contains(keyStore)) {
-    		this.endpoint.setKeystoreType(racfKeystoreType);
-    		log.debug(sm.getString("jsse.keystore_type_set", racfKeystoreType));
+    		this.endpoint.setKeystoreType(defaultRacfKeystoreType);
+    		log.debug(sm.getString("jsse.keystore_type_set", defaultRacfKeystoreType));
     	}
     	String trustStore = this.endpoint.getTruststoreType();
     	if (trustStore != null && !RacfConstants.SUPPORTED_KEYSTORES.contains(trustStore)) {
-    		this.endpoint.setTruststoreType(racfKeystoreType);
-    		log.debug(sm.getString("jsse.keystore_type_set", racfKeystoreType));
+    		this.endpoint.setTruststoreType(defaultRacfKeystoreType);
+    		log.debug(sm.getString("jsse.keystore_type_set", defaultRacfKeystoreType));
     	}
     	if (this.endpoint.getKeystoreProvider() == null)
     		this.endpoint.setKeystoreProvider(racfKeystoreProvider);
@@ -78,6 +84,45 @@ public class RACFJSSESocketFactory extends JSSESocketFactory {
 		+ " passw: " + this.endpoint.getKeystorePass()
 		+ " alias/label: " + this.endpoint.getKeyAlias());
     }
+    
+    @Override
+    public KeyManager[] getKeyManagers() throws Exception {
+        String keystoreType = endpoint.getKeystoreType();
+        if (keystoreType == null) {
+            keystoreType = defaultRacfKeystoreType;
+        }
+
+        String algorithm = endpoint.getAlgorithm();
+        if (algorithm == null) {
+            algorithm = KeyManagerFactory.getDefaultAlgorithm();
+        }
+
+        return getKeyManagers(keystoreType, endpoint.getKeystoreProvider(),
+                algorithm, endpoint.getKeyAlias());
+    }
+
+    @Override
+    public TrustManager[] getTrustManagers() throws Exception {
+        String truststoreType = endpoint.getTruststoreType();
+        if (truststoreType == null) {
+            truststoreType = System.getProperty("javax.net.ssl.trustStoreType");
+        }
+        if (truststoreType == null) {
+            truststoreType = endpoint.getKeystoreType();
+        }
+        if (truststoreType == null) {
+            truststoreType = defaultRacfKeystoreType;
+        }
+
+        String algorithm = endpoint.getTruststoreAlgorithm();
+        if (algorithm == null) {
+            algorithm = TrustManagerFactory.getDefaultAlgorithm();
+        }
+
+        return getTrustManagers(truststoreType, endpoint.getKeystoreProvider(),
+                algorithm);
+    }
+
     
     /*
      * Gets the SSL server's keystore.
